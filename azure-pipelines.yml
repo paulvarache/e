@@ -9,7 +9,7 @@ strategy:
       archiveType: tar
       archiveExt: .tar.gz
     mac:
-      imageName: 'macos-10.13'
+      imageName: 'macos-10.14'
       archiveType: tar
       archiveExt: .tar.gz
     windows:
