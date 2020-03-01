@@ -1,4 +1,7 @@
-$res = ./e.exe $args
+function Get-ScriptDirectory { Split-Path $MyInvocation.ScriptName }
+$script = Join-Path (Get-ScriptDirectory) 'e.exe'
+
+$res = (& $script $args)
 if (!$res.Count) {
     exit($LASTEXITCODE)
 }
@@ -15,3 +18,5 @@ if ($first.StartsWith("#env")) {
     $res | Write-Host
     exit($LASTEXITCODE)
 }
+
+
