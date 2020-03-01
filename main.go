@@ -110,7 +110,7 @@ func main() {
 		}
 		for name, p := range em.Profiles {
 			if name == em.Selected {
-				fmt.Printf("*%s", p.Name)
+				fmt.Printf("*%s\n", p.Name)
 			} else {
 				fmt.Println(p.Name)
 			}
@@ -139,12 +139,19 @@ func main() {
 		if err != nil {
 			panic(err)
 		}
+		fmt.Println("#env")
+		fmt.Printf("%s%s=%s\n", SetVarPrefix, key, value)
 	default:
 		if len(args) == 1 {
 			name := args[0]
-			oldValues, err := em.GetProfile().GetValues()
-			if err != nil {
-				panic(err)
+			var oldValues ProfileValues
+			if em.Selected != "" {
+				oldValues, err = em.GetProfile().GetValues()
+				if err != nil {
+					panic(err)
+				}
+			} else {
+				oldValues = make(ProfileValues)
 			}
 			err = em.SelectProfile(name)
 			if err != nil {
@@ -156,10 +163,10 @@ func main() {
 			}
 			fmt.Println("#env")
 			for k := range oldValues {
-				fmt.Printf("%s=\n", k)
+				fmt.Printf("%s%s=\"\"\n", SetVarPrefix, k)
 			}
 			for k, v := range values {
-				fmt.Printf("%s=%s\n", k, v)
+				fmt.Printf("%s%s=%s\n", SetVarPrefix, k, v)
 			}
 		} else {
 			flag.Usage()
